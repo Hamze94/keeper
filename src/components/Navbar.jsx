@@ -1,24 +1,17 @@
-import React, { useState } from "react";
-import { AiOutlineMenu, AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
+import React, { useState, useContext } from "react";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { FiAlignJustify, } from "react-icons/fi";
 import { CiUser } from "react-icons/ci";
-import { MdOutlineAddBox, MdOutlineWbSunny } from "react-icons/md"; import { TbTruckDelivery } from "react-icons/tb";
-import { FaWallet } from "react-icons/fa";
-import { MdFavorite, MdHelp } from "react-icons/md";
+import { MdOutlineAddBox, MdOutlineWbSunny } from "react-icons/md";
 
-const Navbar = () => {
+import { DarkModeContext } from '../contex/DarkModeContex'
+
+export default function Navbar() {
+    const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
     const [nav, setNav] = useState(false);
-
-    const menuItems = [
-        { icon: <TbTruckDelivery size={25} className="mr-4" />, text: "Orders" },
-        { icon: <MdFavorite size={25} className="mr-4" />, text: "Favorites" },
-        { icon: <FaWallet size={25} className="mr-4" />, text: "Wallet" },
-        { icon: <MdHelp size={25} className="mr-4" />, text: "Help" },
-    ];
-
     return (
-        <div className="max-w-[1640px] bg-[#9657e7]  mx-auto flex justify-between items-center p-4 shadow-sm">
+        <div className={darkMode ? " bg-[#302e81] max-w-[1640px] text-white mx-auto flex justify-between items-center p-4 shadow-sm" :
+            "max-w-[1640px] bg-[#9657e7]  mx-auto flex justify-between items-center p-4 shadow-sm"}>
             {/* Left side */}
             <div className="flex text-white items-center text-xl">
                 <div onClick={() => setNav(!nav)} className="cursor-pointer">
@@ -28,7 +21,7 @@ const Navbar = () => {
             <div className='flex items-center text-xl text-white  gap-x-5 '>
                 <CiUser />
                 <MdOutlineAddBox />
-                <MdOutlineWbSunny />
+                <MdOutlineWbSunny onClick={() => toggleDarkMode()} />
             </div>
             {/* Overlay */}
             {nav ? (
@@ -68,5 +61,3 @@ const Navbar = () => {
         </div>
     );
 };
-
-export default Navbar;

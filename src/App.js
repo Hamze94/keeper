@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import Dashboard from "./components/Dashboard";
-import Navbar from "./components/Navbar";
+
+import { DarkModeContext } from './contex/DarkModeContex.js'
 
 function App() {
+  const { darkMode, toggle } = useContext(DarkModeContext);
+
   return (
-    <div className="App">
+    <div className={darkMode ? 'bg-[#1e293b] w-screen  text-white' : ""}>
       <Dashboard />
     </div>
   );
