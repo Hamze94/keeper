@@ -2,22 +2,16 @@ import React from 'react'
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdRestartAlt } from "react-icons/md";
 import { IoPlayCircleOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from 'react';
+import { fetchProjectData } from '../store/slices/projectSlice';
 
-export default function TaskCart() {
+export default function TaskCart({ tasks }) {
+    const { data, loading, error } = useSelector((state) => state.app)
+
     return (
-        <div className='p-3 mb-5 rounded-md mt-2 border-2 border-[#f97315] relative h-[150px] '>
-            <h1 className=' text-center  font-semibold'>Task Name</h1>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                <div class="bg-[#f97315] h-2.5 rounded-full" style={{ "width": "45%" }}></div>
-            </div>
+        <ul>
 
-            <p className='font-thin'>Stay productive !</p>
-            <div className="flex justify-between">
-                <RiDeleteBin6Line className='font-bold text-lg absolute bottom-2 ' />
-                <IoPlayCircleOutline className='font-bold  text-5xl absolute -bottom-6  right-[50%]' />
-                <MdRestartAlt className='font-bold text-lg absolute bottom-2 right-2' />
-
-            </div>
-        </div >
+        </ul>
     )
 }
