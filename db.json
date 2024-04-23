@@ -1,0 +1,62 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "name": "Project A",
+      "slug": "project-a",
+      "trackedTime": 120
+    },
+    {
+      "id": "2",
+      "name": "Project B",
+      "slug": "project-b",
+      "trackedTime": 180
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "name": "Task 1",
+      "description": "Description for Task 1",
+      "time": 60,
+      "projectId": "1",
+      "isRunning": false,
+      "remainingTime": 60,
+      "remainingSeconds": 0,
+      "completed": false
+    },
+    {
+      "id": "2",
+      "name": "Task 2",
+      "description": "Description for Task 2",
+      "time": 120,
+      "projectId": "1",
+      "isRunning": false,
+      "remainingTime": 120,
+      "remainingSeconds": 0,
+      "completed": false
+    },
+    {
+      "id": "3",
+      "name": "Task 3",
+      "description": "Description for Task 3",
+      "time": 30,
+      "projectId": "2",
+      "isRunning": false,
+      "remainingTime": 30,
+      "remainingSeconds": 0,
+      "completed": true
+    },
+    {
+      "id": "4",
+      "name": "Task 4",
+      "description": "Description for Task 4",
+      "time": 45,
+      "projectId": "2",
+      "isRunning": false,
+      "remainingTime": 45,
+      "remainingSeconds": 0,
+      "completed": false
+    }
+  ]
+}
