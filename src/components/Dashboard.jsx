@@ -1,7 +1,7 @@
 import Navbar from './Navbar'
 import AddTask from './AddTask'
 import ProjectCart from './ProjectCart'
-import TaskCart from './TaskCart'
+import TaskManagement from './TaskManagement'
 
 export default function Dashboard() {
     return (
@@ -9,9 +9,7 @@ export default function Dashboard() {
             <Navbar />
             <div className="m-5 " >
 
-                <AddTask />
-                <ProjectCart />
-                <TaskCart />
+                <TaskManagement />
             </div>
         </>
     )

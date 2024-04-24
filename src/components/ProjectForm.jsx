@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addProject } from '../store/slices/projectSlice';
-
-export default function ProjectForm() {
+import { addProject } from '../store/slices/projectSlice'
+const ProjectForm = () => {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addProject({ name }));
+        const slug = name.toLowerCase().replace(/\s+/g, '-'); // Generate slug from name
+        dispatch(addProject({ id: 1, name, slug, trackedTime: 0 })); // Replace id with actual value
         setName('');
     };
 
@@ -28,4 +28,4 @@ export default function ProjectForm() {
     );
 };
 
-
+export default ProjectForm;

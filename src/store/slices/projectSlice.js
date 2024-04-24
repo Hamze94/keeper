@@ -1,24 +1,27 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchProjectData = createAsyncThunk(
-    'projects/fetchProjectData', async () => {
-        try {
-            const { projectList } = await axios.get('http://localhost:3030/projects')
-            return projectList
-        } catch (error) {
-            console.log(error)
-        }
-    });
+export const fetchProjectData = createAsyncThunk('projects/fetchProjectData', async () => {
+    try {
+        const response = await axios.get('http://localhost:3000/projects');
+        return response.data.projects; // Assuming response data structure
+    } catch (error) {
+        console.error('Failed to fetch projects:', error);
+        throw error;
+    }
+});
+
 export const fetchTaskData = createAsyncThunk(
     'tasks/fetchTaskData', async () => {
         try {
-            const { taskList } = await axios.get('http://localhost:3030/1')
-            return taskList
+            const { taskList } = await axios.get('http://localhost:3000/tasks');
+            return taskList;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    });
+    }
+);
+
 const projectSlice = createSlice({
     name: "projects",
     initialState: {
@@ -27,16 +30,13 @@ const projectSlice = createSlice({
         error: null,
     },
     reducers: {
-        // Add a new project to the state
-        addProject: (state, action) => {
-            state.data = (action.payload);
+        addProject(state, action) {
+            state.data.push(action.payload);
         },
-        // Remove a project from the state by ID
-        removeProject: (state, action) => {
+        removeProject(state, action) {
             state.data = state.data.filter(project => project.id !== action.payload);
         },
-        // Update a project in the state
-        updateProject: (state, action) => {
+        updateProject(state, action) {
             const { id, newName } = action.payload;
             const project = state.data.find(project => project.id === id);
             if (project) {
@@ -57,19 +57,20 @@ const projectSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
-            .addCase(fetchTaskData.pending, (sate) => {
-                sate.loading = true;
+            .addCase(fetchTaskData.pending, (state) => {
+                state.loading = true;
             })
             .addCase(fetchTaskData.fulfilled, (state, action) => {
-                state.loading = false
+                state.loading = false;
                 state.data = action.payload;
             })
             .addCase(fetchTaskData.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message
-            })
-    }
+                state.error = action.error.message;
+            });
+    },
 });
+
 export const { addProject, removeProject, updateProject } = projectSlice.actions;
 
 export default projectSlice.reducer;

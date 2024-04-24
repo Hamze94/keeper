@@ -2,39 +2,46 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const addTask = createAsyncThunk('tasks/addTask', async (taskData) => {
-  const response = await axios.post('http://localhost:3030/tasks', taskData);
+  const response = await axios.post('http://localhost:3000/tasks', taskData);
   return response.data;
 });
 
 export const deleteTask = createAsyncThunk('tasks/deleteTask', async (taskId) => {
-  await axios.delete(`http://localhost:3030/tasks/${taskId}`);
+  await axios.delete(`http://localhost:3000/tasks/${taskId}`);
   return taskId;
 });
 
 export const setTaskCompleted = createAsyncThunk('tasks/setTaskCompleted', async (taskId) => {
-  const response = await axios.patch(`http://localhost:3030/tasks/${taskId}`, { completed: true });
+  const response = await axios.patch(`http://localhost:3000/tasks/${taskId}`, { completed: true });
   return response.data;
 });
 
 export const resetTaskTimer = createAsyncThunk('tasks/resetTaskTimer', async (taskId) => {
-  const response = await axios.patch(`http://localhost:3030/tasks/${taskId}`, { time: 24 });
+  const response = await axios.patch(`http://localhost:3000/tasks/${taskId}`, { time: 24 });
   return response.data;
 });
 
 export const startTaskTimer = createAsyncThunk('tasks/startTaskTimer', async (taskId) => {
-  const response = await axios.patch(`http://localhost:3030/tasks/${taskId}`, { isRunning: true });
+  const response = await axios.patch(`http://localhost:3000/tasks/${taskId}`, { isRunning: true });
   return response.data;
 });
 
 export const stopTaskTimer = createAsyncThunk('tasks/stopTaskTimer', async (taskId) => {
-  const response = await axios.patch(`http://localhost:3030/tasks/${taskId}`, { isRunning: false });
+  const response = await axios.patch(`http://localhost:3000/tasks/${taskId}`, { isRunning: false });
   return response.data;
 });
 
 export const fetchTasksByState = createAsyncThunk('tasks/fetchTasksByState', async ({ projectId, state }) => {
-  const response = await axios.get(`http://localhost:3030/tasks?projectId=${projectId}&completed=${state}`);
+  const response = await axios.get(`http://localhost:3000/tasks?projectId=${projectId}&completed=${state}`);
   return response.data;
 });
+export const fetchTasksByProjectAndState = createAsyncThunk(
+  'tasks/fetchTasksByProjectAndState',
+  async ({ projectId, state }) => {
+    const response = await axios.get(`http://localhost:3000/tasks?projectId=${projectId}&completed=${state}`);
+    return response.data;
+  }
+);
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -88,8 +95,18 @@ const tasksSlice = createSlice({
         if (task) {
           task.isRunning = false;
         }
+      })
+      .addCase(fetchTasksByProjectAndState.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchTasksByProjectAndState.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.items = action.payload;
+      })
+      .addCase(fetchTasksByProjectAndState.rejected, (state, action) => {
+        state.status = 'idle';
+        state.error = action.error.message;
       });
   },
 });
-
 export default tasksSlice.reducer;
